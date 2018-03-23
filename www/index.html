@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Autodesk Forge Tutorial</title>
+    <meta charset="utf-8" /> 
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Autodesk Forge Viewer files -->
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/style.min.css?v=v4.0" type="text/css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/three.min.js"></script>
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/viewer3D.min.js?v=v4.0"></script>
+    <!-- this project files -->
+    <link rel="stylesheet" href="/main.css" type="text/css"> 
+    <script src="/ForgeViewer.js"></script>
+
+    <script src="/index.js"></script>
+
+</head>
+
+<body>
+
+    <table>
+        <tr>
+            <td>
+                <input type="button" id="getToken" value="get token" /> 
+            </td>
+            <td>
+                <input type="text" id="tokenvalue" value="<token or status will appear here>" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <input type="button" id="createbucket" value="create bucket" />
+            </td>
+            <td>
+            <input type="text" id="newbucketname" value="<your new bucket names>" />
+            </td>
+            <td>
+                <input type="text" id="buckettatus" value="<create bucket status>" />
+            </td>
+         </tr>
+
+        <tr>
+            <td>
+                <form id="uploadFileform" method='post' enctype="multipart/form-data">
+                    <input id="hiddenUploadField" type="file" name="theFile" style="visibility:hidden" />
+                </form>
+                <input type="button" id="uploadfile" value="upload file" />
+            </td>
+            <td>
+                <input type="text" id="uploadurn" value="<upload file urn or status will appear here>" />
+            </td>
+
+        </tr>
+        <tr> 
+            <td>
+                <input type="button" id="postJob" value="post job" />
+            </td>
+            <td>
+                <input type="text" id="postjobstatus" value="<post job status will appear here>" />
+            </td>
+            <td>
+                <input type="text" id="base64urn" value="<base64 urn will appear here>" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+                <input type="button" id="getjobsprogress" value="get job progress" />
+            </td>
+            <td>
+                <input type="text" id="jobsprogresss" value="< job progress or status will appear here>" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+                <input type="button" id="loadviewer" value="load viewer" />
+            </td> 
+        </tr>
+        </table>
+    <div id="forgeViewer"></div>
+</body>
+
+</html>
