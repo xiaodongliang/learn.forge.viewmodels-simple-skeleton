@@ -26,7 +26,7 @@ app.use('/', express.static(__dirname + '/../www')); // redirect static calls
 app.set('port', process.env.PORT || 3000); // main port
 
 // prepare our API endpoint routing
-var oauth = require('./oauthtoken');
+var oauth = require('./viewertoken');
 var oss = require('./oss');
 var modelderivative = require('./modelderivative');
 app.use('/', oauth); // redirect oauth API calls

@@ -30,59 +30,10 @@ var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 
 // actually perform the token operation
-var oauth = require('./oauth');
-
-// Return list of buckets (id=#) or list of objects (id=bucketKey)
-router.get('/api/forge/oss/buckets', function (req, res) {
-    var id = req.query.id;
-    if (id === '#') {// root
-        // in this case, let's return all buckets
-        var bucketsApi = new forgeSDK.BucketsApi();
-        oauth.getTokenInternal().then(function (credentials) {
-            bucketsApi.getBuckets({ limit: 100 }, oauth.OAuthClient(), credentials).then(function (buckets) {
-                var list = [];
-                buckets.body.items.forEach(function (bucket) {
-                    list.push({
-                        id: bucket.bucketKey,
-                        text: bucket.bucketKey,
-                        type: 'bucket',
-                        children: true
-                    })
-                })
-                res.json(list);
-            });
-        }).catch(function (error) {
-            console.log('Error at Get Buckets:');
-            console.log(error);
-            res.status(500).json(error);
-        });
-    }
-    else {
-        // as we have the id (bucketKey), let's return all objects
-        var objectsApi = new forgeSDK.ObjectsApi();
-        oauth.getTokenInternal().then(function (credentials) {
-            objectsApi.getObjects(id, {}, oauth.OAuthClient(), credentials).then(function (objects) {
-                var list = [];
-                objects.body.items.forEach(function (object) {
-                    list.push({
-                        id: object.objectId.toBase64(),
-                        text: object.objectKey,
-                        type: 'object',
-                        children: false
-                    })
-                })
-                res.json(list);
-            });
-        }).catch(function (error) {
-            console.log('Error at Get Objects:');
-            console.log(error);
-            res.status(500).json(error);
-        });
-    }
-});
+var oauth = require('./oauth'); 
 
 // Create a new bucket 
-router.post('/api/forge/oss/buckets', jsonParser, function (req, res) {
+router.post('/api/forge/oss/createbuckets', jsonParser, function (req, res) {
     oauth.getTokenInternal().then(function (credentials) {
         var bucketsApi = new forgeSDK.BucketsApi();
         var postBuckets = new forgeSDK.PostBucketsPayload();
@@ -108,7 +59,7 @@ var multer = require('multer')
 var upload = multer({ dest: './tmp' })
 
 // Receive a file from the client and upload to the bucket
-router.post('/api/forge/oss/objects', upload.single('fileToUpload'), function (req, res) {
+router.post('/api/forge/oss/uploadobjects', upload.single('fileToUpload'), function (req, res) {
     oauth.getTokenInternal().then(function (credentials) {
         var bucketKey = req.body.bucketKey;
         var fs = require('fs');
@@ -129,5 +80,8 @@ router.post('/api/forge/oss/objects', upload.single('fileToUpload'), function (r
 String.prototype.toBase64 = function () {
     return new Buffer(this).toString('base64');
 };
+
+
+ 
 
 module.exports = router;

@@ -33,7 +33,7 @@ var jsonParser = bodyParser.json();
 var oauth = require('./oauth');
 
 // Create a new bucket 
-router.post('/api/forge/modelderivative/jobs', jsonParser, function (req, res) {
+router.post('/api/forge/modelderivative/postjobs', jsonParser, function (req, res) {
     oauth.getTokenInternal().then(function (credentials) {
         // prepare the translation job payload
         var postJob = new forgeSDK.JobPayload();
@@ -59,7 +59,7 @@ router.post('/api/forge/modelderivative/jobs', jsonParser, function (req, res) {
     });
 });
 
-router.get('/api/forge/modelderivative/status', function (req, res) {
+router.get('/api/forge/modelderivative/getstatus', function (req, res) {
     var base64urn = req.query.objectKey;
     oauth.getTokenInternal().then(function (credentials) { 
         // create the derivative API 

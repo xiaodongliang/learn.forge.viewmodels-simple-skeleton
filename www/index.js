@@ -1,9 +1,9 @@
 ﻿$(document).ready(function () {
 
-    $('#getToken').click(function () {
+    $('#getPubToken').click(function () {
 
         jQuery.ajax({
-            url: '/api/forge/oauth/token',
+            url: '/api/forge/oauth/publictoken',
             success: function (res) {
                 //callback(res.access_token, res.expires_in)
                 $('#tokenvalue').val(res.access_token); 
@@ -17,7 +17,7 @@
 
         var bucketKey = $('#newbucketname').val();
         jQuery.post({
-            url: '/api/forge/oss/buckets',
+            url: '/api/forge/oss/createbuckets',
             contentType: 'application/json',
             data: JSON.stringify({ 'bucketKey': bucketKey, 'policyKey': 'persistent' }),
             success: function (res) {
@@ -45,7 +45,7 @@
             formData.append('bucketKey', bucketKey);
 
             $.ajax({
-                url: '/api/forge/oss/objects',
+                url: '/api/forge/oss/uploadobjects',
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -65,7 +65,7 @@
         var objectKey = $('#uploadurn').val();
 
         jQuery.post({
-            url: '/api/forge/modelderivative/jobs',
+            url: '/api/forge/modelderivative/postjobs',
             contentType: 'application/json',
             data: JSON.stringify({ 'objectKey': objectKey }),
             success: function (res) {
@@ -83,7 +83,7 @@
         var objectKey = $('#base64urn').val();
 
         jQuery.get({
-            url: '/api/forge/modelderivative/status' + '?'+ 'objectKey='+objectKey,
+            url: '/api/forge/modelderivative/getstatus' + '?'+ 'objectKey='+objectKey,
             contentType: 'application/json',
             success: function (res) {
                 $("#jobsprogresss").val(res.progress);
@@ -94,10 +94,9 @@
     }); 
 
     $('#loadviewer').click(function () {
-        var objectKey = $('#base64urn').val();
-
+        var objectKey = $('#base64urn').val(); 
         launchViewer(objectKey);
-    }); 
+    });  
 
 });
  
